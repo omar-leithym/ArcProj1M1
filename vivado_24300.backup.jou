@@ -1,0 +1,42 @@
+#-----------------------------------------------------------
+# Vivado v2018.2 (64-bit)
+# SW Build 2258646 on Thu Jun 14 20:03:12 MDT 2018
+# IP Build 2256618 on Thu Jun 14 22:10:49 MDT 2018
+# Start of session at: Wed Apr  9 20:57:43 2025
+# Process ID: 24300
+# Current directory: C:/Users/iiHAK/Downloads/ArcProj1M1-main/ArcProj1M1-main/ArcProj1M1
+# Command line: vivado.exe -gui_launcher_event rodinguilauncherevent26064 C:\Users\iiHAK\Downloads\ArcProj1M1-main\ArcProj1M1-main\ArcProj1M1\ArcProj1M1.xpr
+# Log file: C:/Users/iiHAK/Downloads/ArcProj1M1-main/ArcProj1M1-main/ArcProj1M1/vivado.log
+# Journal file: C:/Users/iiHAK/Downloads/ArcProj1M1-main/ArcProj1M1-main/ArcProj1M1\vivado.jou
+#-----------------------------------------------------------
+start_gui
+open_project C:/Users/iiHAK/Downloads/ArcProj1M1-main/ArcProj1M1-main/ArcProj1M1/ArcProj1M1.xpr
+update_compile_order -fileset sources_1
+launch_runs synth_1 -jobs 10
+wait_on_run synth_1
+launch_simulation
+open_wave_config C:/Users/iiHAK/Downloads/ArcProj1M1-main/ArcProj1M1-main/ArcProj1M1/Simulation_behav.wcfg
+source Simulation.tcl
+close [ open C:/Users/iiHAK/Downloads/ArcProj1M1-main/ArcProj1M1-main/ArcProj1M1/ArcProj1M1.srcs/sources_1/new/defines.v w ]
+add_files C:/Users/iiHAK/Downloads/ArcProj1M1-main/ArcProj1M1-main/ArcProj1M1/ArcProj1M1.srcs/sources_1/new/defines.v
+update_compile_order -fileset sources_1
+reset_run synth_1
+launch_runs synth_1 -jobs 10
+wait_on_run synth_1
+close_sim
+launch_simulation
+open_wave_config C:/Users/iiHAK/Downloads/ArcProj1M1-main/ArcProj1M1-main/ArcProj1M1/Simulation_behav.wcfg
+source Simulation.tcl
+add_bp {C:/Users/iiHAK/Downloads/ArcProj1M1-main/ArcProj1M1-main/ArcProj1M1/ArcProj1M1.srcs/sources_1/new/InstructionMemory.v} 29
+remove_bps -file {C:/Users/iiHAK/Downloads/ArcProj1M1-main/ArcProj1M1-main/ArcProj1M1/ArcProj1M1.srcs/sources_1/new/InstructionMemory.v} -line 29
+close_sim
+launch_simulation
+open_wave_config C:/Users/iiHAK/Downloads/ArcProj1M1-main/ArcProj1M1-main/ArcProj1M1/Simulation_behav.wcfg
+source Simulation.tcl
+relaunch_sim
+relaunch_sim
+close_sim
+launch_simulation
+open_wave_config C:/Users/iiHAK/Downloads/ArcProj1M1-main/ArcProj1M1-main/ArcProj1M1/Simulation_behav.wcfg
+source Simulation.tcl
+relaunch_sim

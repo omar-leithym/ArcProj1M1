@@ -1,0 +1,18 @@
+0.6
+2018.2
+Jun 14 2018
+20:41:02
+C:/Users/iiHAK/Downloads/ArcProj1M1-main/ArcProj1M1-main - Copy/ArcProj1M1/ArcProj1M1.sim/sim_1/behav/xsim/glbl.v,1744074459,verilog,,,,glbl,,,,,,,,
+C:/Users/iiHAK/Downloads/ArcProj1M1-main/ArcProj1M1-main - Copy/ArcProj1M1/ArcProj1M1.srcs/sim_1/new/Simulation.v,1744074459,verilog,,,,Simulation,,,,,,,,
+C:/Users/iiHAK/Downloads/ArcProj1M1-main/ArcProj1M1-main - Copy/ArcProj1M1/ArcProj1M1.srcs/sources_1/new/ALU.v,1744239430,verilog,,C:/Users/iiHAK/Downloads/ArcProj1M1-main/ArcProj1M1-main - Copy/ArcProj1M1/ArcProj1M1.srcs/sources_1/new/ALU_CU.v,,ALU,,,,,,,,
+C:/Users/iiHAK/Downloads/ArcProj1M1-main/ArcProj1M1-main - Copy/ArcProj1M1/ArcProj1M1.srcs/sources_1/new/ALU_CU.v,1744237722,verilog,,C:/Users/iiHAK/Downloads/ArcProj1M1-main/ArcProj1M1-main - Copy/ArcProj1M1/ArcProj1M1.srcs/sources_1/new/CU.v,,ALU_CU,,,,,,,,
+C:/Users/iiHAK/Downloads/ArcProj1M1-main/ArcProj1M1-main - Copy/ArcProj1M1/ArcProj1M1.srcs/sources_1/new/CU.v,1744237722,verilog,,C:/Users/iiHAK/Downloads/ArcProj1M1-main/ArcProj1M1-main - Copy/ArcProj1M1/ArcProj1M1.srcs/sources_1/new/DataMemory.v,,CU,,,,,,,,
+C:/Users/iiHAK/Downloads/ArcProj1M1-main/ArcProj1M1-main - Copy/ArcProj1M1/ArcProj1M1.srcs/sources_1/new/DataMemory.v,1744239430,verilog,,C:/Users/iiHAK/Downloads/ArcProj1M1-main/ArcProj1M1-main - Copy/ArcProj1M1/ArcProj1M1.srcs/sources_1/new/ImmGen.v,,DataMemory,,,,,,,,
+C:/Users/iiHAK/Downloads/ArcProj1M1-main/ArcProj1M1-main - Copy/ArcProj1M1/ArcProj1M1.srcs/sources_1/new/ImmGen.v,1744074459,verilog,,C:/Users/iiHAK/Downloads/ArcProj1M1-main/ArcProj1M1-main - Copy/ArcProj1M1/ArcProj1M1.srcs/sources_1/new/InstructionMemory.v,,ImmGen,,,,,,,,
+C:/Users/iiHAK/Downloads/ArcProj1M1-main/ArcProj1M1-main - Copy/ArcProj1M1/ArcProj1M1.srcs/sources_1/new/InstructionMemory.v,1744238500,verilog,,C:/Users/iiHAK/Downloads/ArcProj1M1-main/ArcProj1M1-main - Copy/ArcProj1M1/ArcProj1M1.srcs/sources_1/new/NBitMux2x1.v,,InstructionMemory,,,,,,,,
+C:/Users/iiHAK/Downloads/ArcProj1M1-main/ArcProj1M1-main - Copy/ArcProj1M1/ArcProj1M1.srcs/sources_1/new/NBitMux2x1.v,1744074459,verilog,,C:/Users/iiHAK/Downloads/ArcProj1M1-main/ArcProj1M1-main - Copy/ArcProj1M1/ArcProj1M1.srcs/sources_1/new/NBitShiftLeft.v,,NBitMux2x1,,,,,,,,
+C:/Users/iiHAK/Downloads/ArcProj1M1-main/ArcProj1M1-main - Copy/ArcProj1M1/ArcProj1M1.srcs/sources_1/new/NBitShiftLeft.v,1744074459,verilog,,C:/Users/iiHAK/Downloads/ArcProj1M1-main/ArcProj1M1-main - Copy/ArcProj1M1/ArcProj1M1.srcs/sources_1/new/RCA.v,,NBitShiftLeft,,,,,,,,
+C:/Users/iiHAK/Downloads/ArcProj1M1-main/ArcProj1M1-main - Copy/ArcProj1M1/ArcProj1M1.srcs/sources_1/new/RCA.v,1744074459,verilog,,C:/Users/iiHAK/Downloads/ArcProj1M1-main/ArcProj1M1-main - Copy/ArcProj1M1/ArcProj1M1.srcs/sources_1/new/RegFile.v,,RCA,,,,,,,,
+C:/Users/iiHAK/Downloads/ArcProj1M1-main/ArcProj1M1-main - Copy/ArcProj1M1/ArcProj1M1.srcs/sources_1/new/RegFile.v,1744074459,verilog,,C:/Users/iiHAK/Downloads/ArcProj1M1-main/ArcProj1M1-main - Copy/ArcProj1M1/ArcProj1M1.srcs/sources_1/new/TopModule.v,,RegFile,,,,,,,,
+C:/Users/iiHAK/Downloads/ArcProj1M1-main/ArcProj1M1-main - Copy/ArcProj1M1/ArcProj1M1.srcs/sources_1/new/TopModule.v,1744237722,verilog,,C:/Users/iiHAK/Downloads/ArcProj1M1-main/ArcProj1M1-main - Copy/ArcProj1M1/ArcProj1M1.srcs/sources_1/new/mux2x1.v,,TopModule,,,,,,,,
+C:/Users/iiHAK/Downloads/ArcProj1M1-main/ArcProj1M1-main - Copy/ArcProj1M1/ArcProj1M1.srcs/sources_1/new/mux2x1.v,1744074459,verilog,,C:/Users/iiHAK/Downloads/ArcProj1M1-main/ArcProj1M1-main - Copy/ArcProj1M1/ArcProj1M1.srcs/sim_1/new/Simulation.v,,mux2x1,,,,,,,,
