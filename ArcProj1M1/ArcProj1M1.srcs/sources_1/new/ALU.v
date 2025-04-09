@@ -1,75 +1,47 @@
-`timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
-// Create Date: 04/08/2025 02:10:18 AM
-// Design Name: 
-// Module Name: ALU
-// Project Name: 
-// Target Devices: 
-// Tool Versions: 
-// Description: 
-// 
-// Dependencies: 
-// 
-// Revision:
-// Revision 0.01 - File Created
-// Additional Comments:
-// 
-//////////////////////////////////////////////////////////////////////////////////
+module ALU(
+    input   wire [31:0] a, b,
+    input   wire [4:0]  shamt,
+    output  reg  [31:0] r,
+    output  wire        cf, zf, vf, sf,
+    input   wire [3:0]  alufn
+);
 
-
-`timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
-// Create Date: 02/25/2025 11:56:45 AM
-// Design Name: 
-// Module Name: ALU
-// Project Name: 
-// Target Devices: 
-// Tool Versions: 
-// Description: 
-// 
-// Dependencies: 
-// 
-// Revision:
-// Revision 0.01 - File Created
-// Additional Comments:
-// 
-//////////////////////////////////////////////////////////////////////////////////
-
-
-module ALU #(parameter N=8)(
-        input [N-1:0] A, [N-1:0] B, [3:0] ALUsel, output reg [N-1:0] result, output zeroFlag 
-    );
-    wire [N-1:0] resultWire;
-    reg [N-1:0] Awire, Bwire;
-    reg cin;
+    wire [31:0] add, op_b;
     
-    RCA #(N) myRCA (Awire, Bwire, cin, resultWire);
-    always @ (*) begin
-       if(ALUsel == 4'b0010) begin
-           Awire = A;
-           Bwire = B;
-           cin = 1'b0;
-           result = resultWire;
-       end 
-       if(ALUsel == 4'b0110) begin
-           Awire = A;
-           Bwire = ~B;
-           cin = 1'b1;
-           result = resultWire;
-       end
-       if(ALUsel == 4'b0000) begin
-           result = A & B;
-       end
-       if(ALUsel == 4'b0001) begin
-           result = A | B;
-       end
-    end
-    assign zeroFlag = result == 0;
-endmodule
+    assign op_b = (~b);
+    
+    assign {cf, add} = alufn[0] ? (a + op_b + 1'b1) : (a + b);
+    
+    assign zf = (add == 0);
+    assign sf = add[31];
+    assign vf = (a[31] ^ (op_b[31]) ^ add[31] ^ cf);
+    
+   wire[31:0] sh;
+    NBitShiftLeft shifter0(.a(a), .shamt(shamt), .type(alufn[1:0]), .r(sh));
 
+    always @ * begin
+        r = 0;
+        case (alufn)
+            // arithmetic
+            4'b0000 : r = add;              // ADD, ADDI
+            4'b0001 : r = add;              // SUB
+            4'b0011 : r = b;                // PASS B
+            // logic
+            4'b0100 : r = a | b;            // OR, ORI
+            4'b0101 : r = a & b;            // AND, ANDI
+            4'b0111 : r = a ^ b;            // XOR, XORI
+            // shift
+            4'b1000 : r = sh;               // SLL
+            4'b1001 : r = sh;               // SRL
+            4'b1010 : r = sh;               // SRA
+            // slt & sltu
+            4'b1101 : r = {31'b0,(sf != vf)}; // SLT, SLTI
+            4'b1111 : r = {31'b0,(~cf)};      // SLTU, SLTIU
+            // additional operations for LUI and AUIPC
+            4'b0010 : r = {b[19:0], 12'b0};   // LUI
+            4'b0110 : r = a + b;              // AUIPC
+            // default case
+            default : r = 0;
+        endcase
+    end
+endmodule
