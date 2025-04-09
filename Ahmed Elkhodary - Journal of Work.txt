@@ -28,7 +28,6 @@
 #### **April 10, 11:30 AM**
 - Created a testbench for verifying all supported instructions.
 - Initialized instruction memory with test cases for ADDI, ANDI, ORI, XORI, SLTI, SLTIU, LUI, AUIPC, and FENCE.
-- Removed unnecessary hierarchical references and ensured compatibility with synthesis tools.
 
 ---
 
