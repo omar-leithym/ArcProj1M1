@@ -58,7 +58,7 @@ module TopModule(
         .ALUsel(ALUsel)
     );
     
-    wire [31:0] result; wire zeroFlag;
+    wire [31:0] result; wire zeroFlag, cFlag, vFlag, sFlag;
     wire [31:0] muxOutput1;
     
     // For AUIPC handling - check if LUI/AUIPC opcode (determined by ALUOp = 2'b10)
@@ -80,6 +80,9 @@ module TopModule(
         .shamt(instruction[24:20]),
         .r(result),
         .zf(zeroFlag),
+        .cf(cFlag),
+        .sf(sFlag),
+        .vf(vFlag),
         .alufn(ALUsel)
     );
     
@@ -120,9 +123,12 @@ module TopModule(
         .cin(1'b0), 
         .sum(PcIncrement)
     );
+    reg branchUnitOutput;
+    BranchingUnit(.funct3(instruction[14:12]), .zf(zeroFlag), .sf(sFlag), .vf(vFlag), .cf(cFlag), .Branch(branchUnitOutput));
     
     wire selector;
-    assign selector = Branch && zeroFlag;
+    assign selector = Branch && branchUnitOutput;
+    
     NBitMux2x1 #(8) my32mux3(
         .a(PcIncrement), 
         .b(branchPC), 
