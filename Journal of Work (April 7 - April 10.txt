@@ -1,0 +1,33 @@
+Journal of Work (April 7 - April 10)
+Ahmed Elkhodary
+April 7
+Finished the forwarding unit.
+
+Fixed pipelining register issues.
+
+Started adding instruction support to the ALU module.
+
+April 8
+Fixed synthesis errors in the ALU module (undefined macros).
+
+Updated the Control Unit (CU) to support ADDI, ANDI, ORI, XORI, SLTI, SLTIU, LUI, AUIPC, and FENCE.
+
+Modified ImmGen to handle immediate values for all instructions.
+
+April 9
+Integrated components into the TopModule.
+
+Fixed PC width mismatches and added branching logic.
+
+Resolved synthesis error with branchUnitOutput by changing it from reg to wire.
+
+Fixed DataMemory initialization issues (integer i declaration).
+
+April 10
+Fixed hierarchical memory access errors in InstructionMemory.
+
+Created a testbench with test cases for all instructions.
+
+Simplified testbench for waveform verification.
+
+Finalized modules and verified functionality via simulation.
