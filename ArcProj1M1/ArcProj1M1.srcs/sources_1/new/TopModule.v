@@ -124,7 +124,7 @@ module TopModule(
         .sum(PcIncrement)
     );
     reg branchUnitOutput;
-    BranchingUnit(.funct3(instruction[14:12]), .zf(zeroFlag), .sf(sFlag), .vf(vFlag), .cf(cFlag), .Branch(branchUnitOutput));
+    BranchingUnit bUnit (.funct3(instruction[14:12]), .zf(zeroFlag), .sf(sFlag), .vf(vFlag), .cf(cFlag), .Branch(branchUnitOutput));
     
     wire selector;
     assign selector = Branch && branchUnitOutput;
