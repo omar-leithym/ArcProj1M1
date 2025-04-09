@@ -1,33 +1,36 @@
-Journal of Work (April 7 - April 10)
-Ahmed Elkhodary
-April 7
-Finished the forwarding unit.
+### **Journal of Work (April 7 - April 10)**
 
-Fixed pipelining register issues.
+#### **April 7, 1:55 PM**
+- Finished the forwarding unit.
+- Fixed an issue in the pipelining registers.
 
-Started adding instruction support to the ALU module.
+#### **April 7, 4:30 PM**
+- Started working on the ALU module.
+- Added support for ADDI, ANDI, ORI, XORI, SLTI, SLTIU, LUI, AUIPC, and FENCE instructions.
 
-April 8
-Fixed synthesis errors in the ALU module (undefined macros).
+#### **April 8, 10:00 AM**
+- Fixed synthesis errors in the ALU module.
+- Replaced macros with explicit bit patterns (e.g., `4'b0000`).
 
-Updated the Control Unit (CU) to support ADDI, ANDI, ORI, XORI, SLTI, SLTIU, LUI, AUIPC, and FENCE.
+#### **April 8, 2:15 PM**
+- Updated the `CU` (Control Unit) module to support the required instructions.
+- Added support for FENCE and AUIPC in the control signals.
 
-Modified ImmGen to handle immediate values for all instructions.
+#### **April 8, 5:45 PM**
+- Modified the `ImmGen` module to generate immediate values for all supported instructions.
+- Fixed issues with opcode handling using explicit bit patterns instead of macros.
 
-April 9
-Integrated components into the TopModule.
+#### **April 9, 11:00 AM**
+- Worked on the `TopModule` to integrate all components.
+- Fixed PC width mismatches and added proper branching logic.
+- Integrated the `BranchingUnit` module into the `TopModule`.
 
-Fixed PC width mismatches and added branching logic.
+#### **April 10, 11:30 AM**
+- Created a testbench for verifying all supported instructions.
+- Initialized instruction memory with test cases for ADDI, ANDI, ORI, XORI, SLTI, SLTIU, LUI, AUIPC, and FENCE.
+- Removed unnecessary hierarchical references and ensured compatibility with synthesis tools.
 
-Resolved synthesis error with branchUnitOutput by changing it from reg to wire.
+---
 
-Fixed DataMemory initialization issues (integer i declaration).
 
-April 10
-Fixed hierarchical memory access errors in InstructionMemory.
-
-Created a testbench with test cases for all instructions.
-
-Simplified testbench for waveform verification.
-
-Finalized modules and verified functionality via simulation.
+---
