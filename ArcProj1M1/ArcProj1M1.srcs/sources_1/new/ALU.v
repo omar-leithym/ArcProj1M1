@@ -7,7 +7,7 @@ module ALU(
 );
 
     wire [31:0] add, op_b;
-    
+    wire [31:0] shift_left, shift_right, shift_right_arith;
     assign op_b = (~b);
     
     assign {cf, add} = alufn[0] ? (a + op_b + 1'b1) : (a + b);
@@ -16,8 +16,10 @@ module ALU(
     assign sf = add[31];
     assign vf = (a[31] ^ (op_b[31]) ^ add[31] ^ cf);
     
-   wire[31:0] sh;
-    NBitShiftLeft shifter0(.a(a), .shamt(shamt), .type(alufn[1:0]), .r(sh));
+    wire[31:0] sh;
+    assign shift_left = a << shamt;
+    assign shift_right = a >> shamt;
+    assign shift_right_arith = $signed(a) >>> shamt;
 
     always @ * begin
         r = 0;
