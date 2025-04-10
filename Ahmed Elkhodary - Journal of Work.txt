@@ -1,35 +1,53 @@
-Journal of Work (April 7 - April 10)
+Journal of Work (April 7 - April 10)  
 
-April 7, 1:55 PM
-- Finished the forwarding unit.
-- Fixed an issue in the pipelining registers.
+April 7, 1:55 PM  
+- Completed forwarding unit logic for hazard handling.  
+- Debugged pipelining register synchronization issues.  
 
-April 7, 4:30 PM
-- Started working on the ALU module.
-- Added support for ADDI, ANDI, ORI, XORI, SLTI, SLTIU, LUI, AUIPC, and FENCE instructions.
+April 7, 4:30 PM  
+- Designed ALU module skeleton.  
+- Implemented base operations: ADDI, ANDI, ORI, XORI.  
 
-April 8, 10:00 AM
-- Fixed synthesis errors in the ALU module.
-- Replaced macros with explicit bit patterns (e.g., `4'b0000`).
+April 8, 10:00 AM  
+- Fixed synthesis errors in ALU (e.g., missing shift logic, undefined flags).  
+- Replaced ambiguous macros with explicit RISC-V opcodes (e.g., `7'b0010011` for I-type).  
 
-April 8, 2:15 PM
-- Updated the `CU` (Control Unit) module to support the required instructions.
-- Added support for FENCE and AUIPC in the control signals.
+April 8, 2:15 PM  
+- Expanded Control Unit (CU) to decode FENCE and AUIPC.  
+- Added ALUOp signal logic for U-type instructions.  
 
-April 8, 5:45 PM
-- Modified the `ImmGen` module to generate immediate values for all supported instructions.
-- Fixed issues with opcode handling using explicit bit patterns instead of macros.
+April 8, 5:45 PM  
+- Refactored ImmGen to support B-type (branch) and J-type immediates.  
+- Resolved sign-extension bugs for SLTI/SLTIU.  
 
-April 9, 11:00 AM
-- Worked on the `TopModule` to integrate all components.
-- Fixed PC width mismatches and added proper branching logic.
-- Integrated the `BranchingUnit` module into the `TopModule`.
+April 9, 11:00 AM  
+- Integrated BranchingUnit into TopModule.  
+- Fixed PC increment logic (4-byte alignment).  
+- Debugged register file read/write conflicts.  
 
-April 10, 11:30 AM
-- Created a testbench for verifying all supported instructions.
-- Initialized instruction memory with test cases for ADDI, ANDI, ORI, XORI, SLTI, SLTIU, LUI, AUIPC, and FENCE.
+April 10, 11:30 AM  
+- Developed comprehensive testbench with 10 test cases.  
+- Added instruction memory initialization for:  
+  - ADDI/ANDI/ORI/XORI  
+  - SLTI/SLTIU  
+  - LUI/AUIPC  
+  - FENCE  
 
----
+April 10, 3:00 PM  
+- Fixed persistent reset signal issue in testbench.  
+- Validated zero-register (x0) behavior across all instructions.  
+- Verified ALU flags (ZF, CF, VF, SF) for arithmetic/logic operations.  
 
+April 10, 6:20 PM
+- Confirmed all test cases execute correctly in simulation:  
+  - ADDI x1 → 10 ✓  
+  - LUI x7 → 0x12345000 ✓  
+  - AUIPC x8 → PC + 0x800 ✓  
+- Finalized documentation and prepared submission files.  
 
----
+---  
+Key Achievements (April 10):  
+- All instructions validated with correct register updates.  
+- Resolved "X" propagation in control signals.  
+- Simulation now shows clean waveforms with no undefined values.
+
