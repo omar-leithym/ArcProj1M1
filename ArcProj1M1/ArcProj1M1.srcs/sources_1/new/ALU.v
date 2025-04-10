@@ -2,27 +2,37 @@ module ALU(
     input   wire [31:0] a, b,
     input   wire [4:0]  shamt,
     output  reg  [31:0] r,
-    output  wire        cf, zf, vf, sf,
+    output  wire        zf, cf, vf, sf,
     input   wire [3:0]  alufn
 );
-
-    wire [31:0] add, op_b;
+    wire [31:0] add;
+    wire [31:0] op_b;
+    wire carry;
+    
+    // For addition/subtraction
+    assign op_b = (alufn[0]) ? ~b : b;
+    assign {carry, add} = a + op_b + (alufn[0] ? 1'b1 : 1'b0);
+    
+    // Shift operations
     wire [31:0] shift_left, shift_right, shift_right_arith;
-    assign op_b = (~b);
-    
-    assign {cf, add} = alufn[0] ? (a + op_b + 1'b1) : (a + b);
-    
-    assign zf = (add == 0);
-    assign sf = add[31];
-    assign vf = (a[31] ^ (op_b[31]) ^ add[31] ^ cf);
-    
-    wire[31:0] sh;
     assign shift_left = a << shamt;
     assign shift_right = a >> shamt;
     assign shift_right_arith = $signed(a) >>> shamt;
-
-    always @ * begin
-        r = 0;
+    
+    // Shift operation selection
+    reg [31:0] sh;
+    always @(*) begin
+        case (alufn[1:0])
+            2'b00: sh = shift_left;
+            2'b01: sh = shift_right;
+            2'b10: sh = shift_right_arith;
+            default: sh = 32'b0;
+        endcase
+    end
+    
+    // ALU operations
+    always @(*) begin
+        r = 32'b0; // Default value
         case (alufn)
             // arithmetic
             4'b0000 : r = add;              // ADD, ADDI
@@ -43,7 +53,13 @@ module ALU(
             4'b0010 : r = {b[19:0], 12'b0};   // LUI
             4'b0110 : r = a + b;              // AUIPC
             // default case
-            default : r = 0;
+            default : r = 32'b0;
         endcase
     end
+    
+    // Flag calculations
+    assign zf = (r == 32'b0);
+    assign sf = r[31];
+    assign cf = alufn[0] ? ~carry : carry;
+    assign vf = (a[31] ^ op_b[31]) & (a[31] ^ add[31]);
 endmodule
