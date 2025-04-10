@@ -13,10 +13,17 @@ module RegFile(
     reg [31:0] regFile [0:31];
     integer i;
     
-    // Synchronous write, asynchronous read
-    always @(posedge clk) begin
+    // Initialize registers at simulation start
+    initial begin
+        for(i=0; i<32; i=i+1) begin
+            regFile[i] = 32'b0;
+        end
+    end
+    
+    // Synchronous write with asynchronous reset
+    always @(posedge clk or posedge rst) begin
         if (rst) begin
-            for(i=0;i<32;i=i+1) begin
+            for(i=0; i<32; i=i+1) begin
                 regFile[i] <= 32'b0;
             end
         end
@@ -25,6 +32,7 @@ module RegFile(
         end
     end
     
-    assign read1Output = regFile[read1];
-    assign read2Output = regFile[read2];
+    // Asynchronous read with special handling for x0 register
+    assign read1Output = (read1 == 5'b0) ? 32'b0 : regFile[read1];
+    assign read2Output = (read2 == 5'b0) ? 32'b0 : regFile[read2];
 endmodule
