@@ -1,18 +1,27 @@
-`timescale 1ns / 1ps
-
 module CU(
-    input [6:0] instBits,
-    output reg Branch, 
-    output reg MemRead, 
+    input [6:0] instBits,       
+    output reg Branch,
+    output reg MemRead,
     output reg MemtoReg,
     output reg [1:0] ALUOp,
-    output reg MemWrite, 
-    output reg ALUSrc, 
+    output reg MemWrite,
+    output reg ALUSrc,
     output reg RegWrite,
-    output reg FenceOp  
+    output reg FenceOp
 );
+    
+    initial begin
+        Branch = 1'b0;
+        MemRead = 1'b0;
+        MemtoReg = 1'b0;
+        ALUOp = 2'b00;
+        MemWrite = 1'b0;
+        ALUSrc = 1'b0;
+        RegWrite = 1'b0;
+        FenceOp = 1'b0;
+    end
 
-    always@(*) begin
+    always @(*) begin
        
         Branch = 1'b0;
         MemRead = 1'b0;
@@ -23,64 +32,62 @@ module CU(
         RegWrite = 1'b0;
         FenceOp = 1'b0;
         
-        case(instBits[6:2]) 
-            // I-type arithmetic operations (ADDI, ANDI, ORI, XORI, SLTI, SLTIU)
-            5'b00100: begin
-                Branch = 1'b0;
-                MemRead = 1'b0;
-                MemtoReg = 1'b0;
-                ALUOp = 2'b11;    // ALUOp for I-type arithmetic
-                MemWrite = 1'b0;
-                ALUSrc = 1'b1;    // Use immediate
-                RegWrite = 1'b1;  // Write to register
-                FenceOp = 1'b0;
+        case (instBits)
+            // R-type instructions 
+            7'b0110011: begin
+                RegWrite = 1'b1;
+                ALUOp = 2'b10;
             end
-            
-            // LUI instruction
-            5'b01101: begin
-                Branch = 1'b0;
-                MemRead = 1'b0;
-                MemtoReg = 1'b0;
-                ALUOp = 2'b10;    // Special ALUOp for LUI
-                MemWrite = 1'b0;
-                ALUSrc = 1'b1;    // Use immediate
-                RegWrite = 1'b1;  // Write to register
-                FenceOp = 1'b0;
-            end
-            
-            // AUIPC instruction
-            5'b00101: begin
-                Branch = 1'b0;
-                MemRead = 1'b0;
-                MemtoReg = 1'b0;
-                ALUOp = 2'b10;    // Special ALUOp for AUIPC
-                MemWrite = 1'b0;
-                ALUSrc = 1'b1;    // Use immediate
-                RegWrite = 1'b1;  // Write to register
-                FenceOp = 1'b0;
-            end
-            
-            // FENCE instruction
-            5'b00011: begin
-                Branch = 1'b0;
-                MemRead = 1'b0;
-                MemtoReg = 1'b0;
-                ALUOp = 2'b00;    
-                MemWrite = 1'b0;
-                ALUSrc = 1'b0;
-                RegWrite = 1'b0;
-                FenceOp = 1'b1;   // Signal fence operation
-            end
-            
-            default: begin
-                Branch = 1'b0;
-                MemRead = 1'b0;
-                MemtoReg = 1'b0;
+
+            // I-type arithmetic instructions 
+            7'b0010011: begin
+                RegWrite = 1'b1;
+                ALUSrc = 1'b1;
                 ALUOp = 2'b00;
-                MemWrite = 1'b0;
-                ALUSrc = 1'b0;
-                RegWrite = 1'b0;
-                FenceOp = 1'b0;
+            end
+
+            // LUI (Load Upper Immediate)
+            7'b0110111: begin
+                RegWrite = 1'b1;
+                ALUSrc = 1'b1;
+                ALUOp = 2'b10;
+            end
+
+            // AUIPC 
+            7'b0010111: begin
+                RegWrite = 1'b1;
+                ALUSrc = 1'b1;
+                ALUOp = 2'b11;
+            end
+
+            // Load instructions
+            7'b0000011: begin
+                MemRead = 1'b1;
+                RegWrite = 1'b1;
+                ALUSrc = 1'b1;
+                MemtoReg = 1'b1;
+            end
+
+            // Store instructions
+            7'b0100011: begin
+                MemWrite = 1'b1;
+                ALUSrc = 1'b1;
+            end
+
+            // Branch instructions
+            7'b1100011: begin
+                Branch = 1'b1;
+                ALUOp = 2'b01;
+            end
+
+            // FENCE instruction
+            7'b0001111: begin
+                FenceOp = 1'b1;
+            end
+
+            // Default case - NOP
+            default: begin
+                // All signals already set to default
             end
         endcase
     end
