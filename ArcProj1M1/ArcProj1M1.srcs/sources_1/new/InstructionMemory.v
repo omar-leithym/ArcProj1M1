@@ -1,43 +1,50 @@
-`timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
-// Create Date: 04/08/2025 02:11:10 AM
-// Design Name: 
-// Module Name: InstructionMemory
-// Project Name: 
-// Target Devices: 
-// Tool Versions: 
-// Description: 
-// 
-// Dependencies: 
-// 
-// Revision:
-// Revision 0.01 - File Created
-// Additional Comments:
-// 
-//////////////////////////////////////////////////////////////////////////////////
-
-
-module InstructionMemory(
-    input [5:0] addr, output [31:0] data_out
+    module InstructionMemory(
+        input [5:0] addr,
+        output reg [31:0] data_out
     );
-    reg [31:0] mem [0:63];
-    assign data_out = mem[addr];
-    initial begin
-        mem[0]=32'b000000000000_00000_010_00001_0000011 ; //lw x1, 0(x0)
-        mem[1]=32'b000000000100_00000_010_00010_0000011 ; //lw x2, 4(x0)
-        mem[2]=32'b000000001000_00000_010_00011_0000011 ; //lw x3, 8(x0)
-        mem[3]=32'b0000000_00010_00001_110_00100_0110011 ; //or x4, x1, x2
-        mem[4]=32'b0_000000_00011_00100_000_0100_0_1100011; //beq x4, x3, 4
-        mem[5]=32'b0000000_00010_00001_000_00011_0110011 ; //add x3, x1, x2
-        mem[6]=32'b0000000_00010_00011_000_00101_0110011 ; //add x5, x3, x2
-        mem[7]=32'b0000000_00101_00000_010_01100_0100011; //sw x5, 12(x0)
-        mem[8]=32'b000000001100_00000_010_00110_0000011 ; //lw x6, 12(x0)
-        mem[9]=32'b0000000_00001_00110_111_00111_0110011 ; //and x7, x6, x1
-        mem[10]=32'b0100000_00010_00001_000_01000_0110011 ; //sub x8, x1, x2
-        mem[11]=32'b0000000_00010_00001_000_00000_0110011 ; //add x0, x1, x2
-        mem[12]=32'b0000000_00001_00000_000_01001_0110011 ; //add x9, x0, x1
-    end
-endmodule
+        
+        reg [31:0] memory [0:63];
+        
+        integer i;
+        
+        initial begin
+           
+            //  ADDI x1, x0, 10 (
+            memory[0] = 32'h00A00093;
+            
+            // ANDI x2, x1, 15  
+            memory[1] = 32'h00F0F113;
+            
+            // ORI x3, x1, 5 )
+            memory[2] = 32'h0050E193;
+            
+            // XORI x4, x1, 7 
+            memory[3] = 32'h0070C213;
+            
+            // SLTI x5, x1, 20 
+            memory[4] = 32'h0140A293;
+            
+            // SLTIU x6, x1, 5 
+            memory[5] = 32'h0050B313;
+            
+            // LUI x7, 0x12345 (
+            memory[6] = 32'h123453B7;
+            
+            //  AUIPC x8, 0x800 
+            memory[7] = 32'h00800417;
+            
+            // FENCE
+            memory[8] = 32'h0000F00F;
+            
+            // Continue after FENCE
+            memory[9] = 32'h00C00093; // ADDI x1, x0, 12
+            
+            // F NOPs
+            for (i=10; i<64; i=i+1) begin
+                memory[i] = 32'h00000013; // NOP (ADDI x0, x0, 0)
+            end
+        end
+        
+        always @(*)
+            data_out = memory[addr];
+    endmodule
