@@ -1,32 +1,29 @@
 module DataMemory(
     input clk,
-    input rst,            
     input MemRead,
     input MemWrite,
-    input [5:0] addr,      // Up to 64 words
+    input [5:0] addr,
     input [31:0] data_in,
     output reg [31:0] data_out
 );
-    reg [31:0] mem [0:63];
-    integer i;
+    reg [31:0] memory [0:63];
     
-    // Synchronous write
-    always @(posedge clk) begin
-        if (rst) begin
-            for (i = 0; i < 64; i = i + 1) begin
-                mem[i] <= 32'b0; // Reset all memory to zero
-            end
-        end else if (MemWrite) begin
-            mem[addr] <= data_in;
-        end
+    integer i;
+    initial begin
+        // Initialize memory with some test pattern
+        for (i=0; i<64; i=i+1)
+            memory[i] = i;
     end
-
-    // Asynchronous read
+    
+    always @(posedge clk) begin
+        if (MemWrite)
+            memory[addr] <= data_in;
+    end
+    
     always @(*) begin
         if (MemRead)
-            data_out = mem[addr];
+            data_out = memory[addr];
         else
-            data_out = 32'b0;
+            data_out = 32'h00000000;
     end
-    
 endmodule
