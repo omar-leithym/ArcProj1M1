@@ -2,13 +2,16 @@
 
 module TopModule(
     input clk, reset, SSDclk
-    );
-    // Fixed PC width consistency
-    reg [7:0] PC_address; wire [7:0] PC_next;
-    always @(posedge clk) begin
+);
+    
+    reg [7:0] PC_address; 
+    wire [7:0] PC_next;
+
+    
+    always @(posedge clk or posedge reset) begin
         if (reset) begin
-            PC_address <= 8'h00;  // Initialize to 0 with correct width
-        end else begin
+            PC_address <= 8'h00;  // Reset PC to 0
+        end else if (!FenceOp) begin  // Freeze PC on FENCE instructions
             PC_address <= PC_next;
         end
     end
@@ -16,7 +19,6 @@ module TopModule(
     wire [31:0] instruction;
     InstructionMemory instrMem(.addr(PC_address[7:2]), .data_out(instruction));
 
-    // Control signals - match CU module definition
     wire Branch, MemRead, MemtoReg, memWrite, ALUSrc, RegWrite, FenceOp;
     wire [1:0] ALUOp;
     
@@ -58,7 +60,8 @@ module TopModule(
         .ALUsel(ALUsel)
     );
     
-    wire [31:0] result; wire zeroFlag, cFlag, vFlag, sFlag;
+    wire [31:0] result; 
+    wire zeroFlag, cFlag, vFlag, sFlag;
     wire [31:0] muxOutput1;
     
     // For AUIPC handling - check if LUI/AUIPC opcode (determined by ALUOp = 2'b10)
@@ -86,11 +89,11 @@ module TopModule(
         .alufn(ALUsel)
     );
     
-    wire [31:0]dataOut;
+    wire [31:0] dataOut;
     DataMemory mem(
         .clk(clk), 
-        .MemRead(MemRead & ~FenceOp),  // Modified for FENCE
-        .MemWrite(memWrite & ~FenceOp), // Modified for FENCE
+        .MemRead(MemRead & ~FenceOp),  // Disable memory reads during FENCE
+        .MemWrite(memWrite & ~FenceOp), // Disable memory writes during FENCE
         .addr(result[7:2]),
         .data_in(readData2), 
         .data_out(dataOut)
@@ -109,7 +112,9 @@ module TopModule(
         .out(immShifted)
     );
 
-    wire [7:0]branchPC; wire [7:0]PcIncrement;
+    wire [7:0] branchPC; 
+    wire [7:0] PcIncrement;
+
     RCA #(8) myRCA32(
         .a(PC_address), 
         .b(immShifted[7:0]), 
@@ -123,17 +128,26 @@ module TopModule(
         .cin(1'b0), 
         .sum(PcIncrement)
     );
-    reg branchUnitOutput;
-    BranchingUnit bUnit (.funct3(instruction[14:12]), .zf(zeroFlag), .sf(sFlag), .vf(vFlag), .cf(cFlag), .Branch(branchUnitOutput));
+
+   wire branchUnitOutput;  
     
-    wire selector;
-    assign selector = Branch && branchUnitOutput;
+   BranchingUnit bUnit (
+       .funct3(instruction[14:12]), 
+       .zf(zeroFlag), 
+       .sf(sFlag), 
+       .vf(vFlag), 
+       .cf(cFlag), 
+       .Branch(branchUnitOutput)
+   );
     
-    NBitMux2x1 #(8) my32mux3(
-        .a(PcIncrement), 
-        .b(branchPC), 
-        .s(selector), 
-        .c(PC_next)
-    );
+   wire selector;
+   assign selector = Branch && branchUnitOutput;
+
+   NBitMux2x1 #(8) my32mux3(
+       .a(PcIncrement), 
+       .b(branchPC), 
+       .s(selector), 
+       .c(PC_next)
+   );
 
 endmodule
